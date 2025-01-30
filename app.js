@@ -1,4 +1,6 @@
+require("dotenv").config();
 const express = require("express");
+
 const admin = require("firebase-admin");
 const quotes = require("./quotes.json");
 
@@ -13,20 +15,17 @@ const db = admin.firestore();
 const app = express();
 const port = 3000;
 
+
 app.use(express.json());
-// Original post request
-// app.post("/quotes", async (req, res) => {
-//     try {
-//       for (const quote of quotes) {
-//         const docRef = db.collection("quotes").doc(); // Auto-generate an ID
-//         await docRef.set(quote);
-//       }
-//       res.status(201).send("Quotes uploaded successfully!");
-//     } catch (error) {
-//       console.error("Error uploading quotes:", error);
-//       res.status(500).send("Error uploading quotes");
-//     }
-//   });
+
+app.use((req, res, next) => {
+  const providedKey = req.headers["x-api-key"];
+  if (!providedKey || providedKey !== process.env.API_KEY) {
+    return res.status(403).json({ error: "Unauthorized: Invalid API Key" });
+  }
+  next();
+});
+
 
 app.post("/quotes", async (req, res) => {
     try {

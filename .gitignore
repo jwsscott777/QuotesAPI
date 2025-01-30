@@ -1,2 +1,19 @@
 node_modules/
 serviceAccountKey.json
+
+# Firebase config and debug logs
+.firebaserc
+firebase-debug.log
+
+# Ignore environment files
+.env
+.env.local
+
+# Ignore Firebase cache files
+.firebase/
+# Ignore Firebase function dependencies
+functions/node_modules/
+functions/.env
+functions/.firebase/
+functions/firebase-debug.log
+functions/serviceAccountKey.json
